@@ -77,15 +77,19 @@ ARG DEBIAN_FRONTEND="noninteractive"
 ARG TARGETARCH
 ARG UBUNTU_VERSION
 ARG PYTHON_VERSION
+ARG PYENV_VERSION
 RUN \
     --mount=type=cache,target=/var/cache/apt,sharing=locked,id=apt-${TARGETARCH}-${UBUNTU_VERSION} \
     --mount=type=cache,target=/var/lib/apt,sharing=locked,id=apt-${TARGETARCH}-${UBUNTU_VERSION} \
     set -eux; \
     apt-get -qq update; \
+    apt-get -qq -y --no-install-recommends install gpg-agent software-properties-common; \
+    add-apt-repository -y ppa:deadsnakes; \
+    export PYENV_VERSION=$(echo "${PYTHON_VERSION}" | sed 's/-nogil//g'); \
     apt-get -qq -y --no-install-recommends install \
         libpython${PYTHON_VERSION} \
         python${PYTHON_VERSION} \
-        python${PYTHON_VERSION}-venv
+        python${PYENV_VERSION}-venv
 LABEL \
     io.deephaven.server.python.version="${PYTHON_VERSION}"
 
