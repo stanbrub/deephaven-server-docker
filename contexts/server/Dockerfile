@@ -85,7 +85,7 @@ RUN \
     apt-get -qq update; \
     apt-get -qq -y --no-install-recommends install gpg-agent software-properties-common; \
     add-apt-repository -y ppa:deadsnakes; \
-    export PYENV_VERSION=$(echo "${PYTHON_VERSION}" | sed 's/-nogil//g'); \
+    export PYENV_VERSION=$(echo "${PYTHON_VERSION}" | sed 's/-.*$//g'); \
     apt-get -qq -y --no-install-recommends install \
         libpython${PYTHON_VERSION} \
         python${PYTHON_VERSION} \
