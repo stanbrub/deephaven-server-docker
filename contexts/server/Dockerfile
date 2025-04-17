@@ -110,6 +110,7 @@ RUN \
 ENV \
     VIRTUAL_ENV="/opt/deephaven/venv" \
     PATH="/opt/deephaven/venv/bin:${PATH}"
+    PYTHON_GIL="0"
 LABEL \
     io.deephaven.server.python.requirements.type="${REQUIREMENTS_TYPE}"
 
