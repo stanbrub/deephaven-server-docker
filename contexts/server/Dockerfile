@@ -109,8 +109,7 @@ RUN \
     /opt/deephaven/venv/bin/pip install --only-binary=:all: "deephaven-core[autocomplete]==${DEEPHAVEN_VERSION}" -r requirements.txt
 ENV \
     VIRTUAL_ENV="/opt/deephaven/venv" \
-    PATH="/opt/deephaven/venv/bin:${PATH}" \
-    PYTHON_GIL="0"
+    PATH="/opt/deephaven/venv/bin:${PATH}"
 LABEL \
     io.deephaven.server.python.requirements.type="${REQUIREMENTS_TYPE}"
 
