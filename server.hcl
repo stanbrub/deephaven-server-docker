@@ -51,7 +51,7 @@ variable "OPENJDK_VERSION" {
 }
 
 variable "PYTHON_VERSION" {
-    default = "3.14"
+    default = "3.14t"
 }
 
 variable "UBUNTU_VERSION" {
