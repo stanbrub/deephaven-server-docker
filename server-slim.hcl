@@ -25,7 +25,7 @@ variable "DEEPHAVEN_SOURCES" {
 }
 
 variable "DEEPHAVEN_VERSION" {
-    default = "0.40.6"
+    default = "41.7"
 }
 
 variable "GIT_REVISION" {
@@ -41,7 +41,7 @@ variable "UBUNTU_VERSION" {
 }
 
 variable "GRPC_HEALTH_PROBE_VERSION" {
-    default = "0.4.42"
+    default = "0.4.48"
 }
 
 variable "TAG" {

@@ -20,7 +20,7 @@ jobs:
       git-revision: ${{ steps.get-git-revision.outputs.GIT_REVISION }}
     steps:
       - name: Checkout deephaven-core
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: deephaven/deephaven-core
           ref: ${{ github.event.inputs.deephaven_core_ref }}
@@ -29,28 +29,25 @@ jobs:
         id: get-git-revision
         run: echo "GIT_REVISION="$(git rev-parse HEAD) >> $GITHUB_OUTPUT
 
-      - name: Setup JDK 11
-        id: setup-java-11
-        uses: actions/setup-java@v4
+      - name: Setup JDKs
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: '11'
-
-      - name: Set JAVA_HOME
-        run: echo "JAVA_HOME=${{ steps.setup-java-11.outputs.path }}" >> $GITHUB_ENV
+          java-version: |
+            21
 
       - name: Setup gradle properties
         run: |
-          .github/scripts/gradle-properties.sh >> gradle.properties
+          .github/scripts/gradle-properties.sh 21 >> gradle.properties
           cat gradle.properties
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Assemble distribution
         run: ./gradlew outputVersion server-jetty-app:assemble py-server:assemble
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: assemble-deephaven-core
           path: |
@@ -64,24 +61,24 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
         with:
           image: tonistiigi/binfmt:qemu-v7.0.0-28@sha256:66e11bea77a5ea9d6f0fe79b57cd2b189b5d15b93a2bdb925be22949232e4e55
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Login to ghcr.io
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: assemble-deephaven-core
           path: artifacts
@@ -101,7 +98,7 @@ jobs:
           cp artifacts/server/jetty-app/build/distributions/server-jetty-${{ steps.artifact_metadata.outputs.deephaven_version }}.tar contexts/server-slim/
 
       - name: Bake
-        uses: docker/bake-action@v6
+        uses: docker/bake-action@v7
         with:
           source: .
           targets: ${{ github.event.inputs.bake_targets }}
