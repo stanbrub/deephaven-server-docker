@@ -47,7 +47,7 @@ variable "DEEPHAVEN_CORE_WHEEL" {
 }
 
 variable "OPENJDK_VERSION" {
-    default = "25"
+    default = "17"
 }
 
 variable "PYTHON_VERSION" {
@@ -63,7 +63,7 @@ variable "GRPC_HEALTH_PROBE_VERSION" {
 }
 
 variable "TAG" {
-    default = "jvm25"
+    default = "jvm17"
 }
 
 variable "RELEASE" {
