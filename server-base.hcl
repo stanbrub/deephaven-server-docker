@@ -29,7 +29,7 @@ variable "CACHE_PREFIX" {
 }
 
 variable "OPENJDK_VERSION" {
-    default = "25"
+    default = "17"
 }
 
 variable "PYTHON_VERSION" {
