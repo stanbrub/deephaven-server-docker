@@ -63,7 +63,7 @@ variable "GRPC_HEALTH_PROBE_VERSION" {
 }
 
 variable "TAG" {
-    default = "jvm17"
+    default = "jvm25"
 }
 
 variable "RELEASE" {
