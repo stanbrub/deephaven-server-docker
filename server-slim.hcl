@@ -25,7 +25,7 @@ variable "DEEPHAVEN_SOURCES" {
 }
 
 variable "DEEPHAVEN_VERSION" {
-    default = "42.0"
+    default = "42.1"
 }
 
 variable "GIT_REVISION" {
@@ -33,7 +33,7 @@ variable "GIT_REVISION" {
 }
 
 variable "OPENJDK_VERSION" {
-    default = "17"
+    default = "25"
 }
 
 variable "UBUNTU_VERSION" {
