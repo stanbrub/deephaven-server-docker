@@ -22,7 +22,7 @@ jobs:
       - name: Checkout deephaven-core
         uses: actions/checkout@v6
         with:
-          repository: deephaven/deephaven-core
+          repository: stanbrub/deephaven-core
           ref: ${{ github.event.inputs.deephaven_core_ref }}
 
       - name: Get GIT Revision
