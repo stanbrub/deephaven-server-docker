@@ -12,6 +12,10 @@ on:
       bake_targets:
         description: 'The bake target(s), comma separated. Please ask for assistance.'
         required: true
+      no_cache:
+        description: 'Rebuild without the layer cache, picking up current OS packages.'
+        type: boolean
+        default: false
 
 jobs:
   assemble-deephaven-core:
@@ -104,6 +108,7 @@ jobs:
           targets: ${{ github.event.inputs.bake_targets }}
           files: server.hcl,server-slim.hcl,server-base.hcl,server-slim-base.hcl
           pull: true
+          no-cache: ${{ inputs.no_cache }}
           set: |
             *.cache-to=
         env:
