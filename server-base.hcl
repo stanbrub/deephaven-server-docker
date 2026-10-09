@@ -29,7 +29,7 @@ variable "CACHE_PREFIX" {
 }
 
 variable "OPENJDK_VERSION" {
-    default = "21"
+    default = "25"
 }
 
 variable "PYTHON_VERSION" {
@@ -45,7 +45,7 @@ variable "GRPC_HEALTH_PROBE_VERSION" {
 }
 
 variable "TAG" {
-    default = "latest"
+    default = "jvm25"
 }
 
 variable "RELEASE" {
