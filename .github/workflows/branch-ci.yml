@@ -3,9 +3,17 @@ name: Branch CI
 on:
   workflow_dispatch:
     inputs:
+      deephaven_core_repository:
+        description: 'The deephaven-core repository to checkout, for example a fork.'
+        required: true
+        default: 'deephaven/deephaven-core'
       deephaven_core_ref:
         description: 'The deephaven-core branch, tag, or SHA to checkout.'
         required: true
+      openjdk_version:
+        description: 'The OpenJDK major version for the images, for example 17 or 25. Empty uses the default in the hcl files.'
+        required: false
+        default: ''
       image_tag:
         description: 'The image tag. Applies to all targets.'
         required: true
@@ -22,7 +30,7 @@ jobs:
       - name: Checkout deephaven-core
         uses: actions/checkout@v7
         with:
-          repository: deephaven/deephaven-core
+          repository: ${{ github.event.inputs.deephaven_core_repository }}
           ref: ${{ github.event.inputs.deephaven_core_ref }}
 
       - name: Get GIT Revision
@@ -96,6 +104,18 @@ jobs:
           cp artifacts/py/server/build/wheel/${{ steps.artifact_metadata.outputs.deephaven_core_wheel }} contexts/server/
           cp artifacts/server/jetty-app/build/distributions/server-jetty-${{ steps.artifact_metadata.outputs.deephaven_version }}.tar contexts/server/
           cp artifacts/server/jetty-app/build/distributions/server-jetty-${{ steps.artifact_metadata.outputs.deephaven_version }}.tar contexts/server-slim/
+
+      # Only when set: an empty OPENJDK_VERSION would override the hcl default with an empty value
+      - name: Select OpenJDK version
+        if: ${{ github.event.inputs.openjdk_version != '' }}
+        env:
+          OPENJDK_VERSION: ${{ github.event.inputs.openjdk_version }}
+        run: |
+          if [[ ! "${OPENJDK_VERSION}" =~ ^[0-9]+$ ]]; then
+            echo "::error::openjdk_version must be a major version number, got '${OPENJDK_VERSION}'"
+            exit 1
+          fi
+          echo "OPENJDK_VERSION=${OPENJDK_VERSION}" >> "$GITHUB_ENV"
 
       - name: Bake
         uses: docker/bake-action@v7
